@@ -34,10 +34,10 @@
 <a name="thanhvien"></a>
 | STT    | MSSV          | Họ và Tên              | Github                                               | Email                   |
 | ------ |:-------------:| ----------------------:|-----------------------------------------------------:|-------------------------:
-| 1      | 23520021      | Nguyễn Tri An          |[Glimmering-Melon](https://github.com/Glimmering-Melon)|23520131@gm.uit.edu.vn   |
-| 2      | 23521535      | Huỳnh Trần Anh Thư     |[thuhuynhtran05](https://github.com/thuhuynhtran05)   |23520191@gm.uit.edu.vn   |
-| 3      | 23520121      | Nguyễn Gia Bảo         |[VN-Hugo](https://github.com/VN-Hugo)                 |23520369@gm.uit.edu.vn   |
-| 2      | 23520588      | Nguyễn Lan Hương       |[HinnoNguyen](https://github.com/HinnoNguyen)         |23520420@gm.uit.edu.vn   |
+| 1      | 23520021      | Nguyễn Tri An          |[Glimmering-Melon](https://github.com/Glimmering-Melon)|23520021@gm.uit.edu.vn   |
+| 2      | 23521535      | Huỳnh Trần Anh Thư     |[thuhuynhtran05](https://github.com/thuhuynhtran05)   |23521535@gm.uit.edu.vn   |
+| 3      | 23520121      | Nguyễn Gia Bảo         |[VN-Hugo](https://github.com/VN-Hugo)                 |23520121@gm.uit.edu.vn   |
+| 2      | 23520588      | Nguyễn Lan Hương       |[HinnoNguyen](https://github.com/HinnoNguyen)         |23520588@gm.uit.edu.vn   |
 
 
 ## SEMINAR
