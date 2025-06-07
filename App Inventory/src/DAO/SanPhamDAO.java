@@ -13,6 +13,7 @@ public class SanPhamDAO {
     public static SanPhamDAO getInstance() {
         return new SanPhamDAO();
     }
+    
 
     // Lấy tất cả sản phẩm đang hoạt động
     public ArrayList<SanPhamDTO> selectAll() {

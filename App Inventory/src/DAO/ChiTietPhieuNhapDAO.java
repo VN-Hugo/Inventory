@@ -30,7 +30,7 @@ public class ChiTietPhieuNhapDAO {
             } catch (SQLException ex) {
                 Logger.getLogger(ChiTietPhieuNhapDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
-            TonKhoDAO.getInstance().updateSoLuongTon(t.get(i).getMaSanPham(), t.get(i).getSoLuong(),t.get(i).getMaKho());
+//            TonKhoDAO.getInstance().updateSoLuongTon(t.get(i).getMaSanPham(), t.get(i).getSoLuong(),t.get(i).getMaKho());
         }
         return result;
     }

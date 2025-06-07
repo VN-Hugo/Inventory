@@ -3,6 +3,7 @@ package GUI;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import raven.toast.Notifications;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import javax.swing.UIManager;
@@ -10,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 
-import GUI.MainForm.FormManager;
+import GUI.FormManager;
 
 
  
@@ -23,7 +24,7 @@ public class App extends JFrame{
     }
     private void init()
     {
-        setTitle("Smart Metro Login");
+        setTitle("HopeHub Inventory");
         setSize(new Dimension(1600,900)); // Tỉ lệ khung hình app
         setLocationRelativeTo(null);
         FormManager.getInstance().initApplication(this);
@@ -38,8 +39,7 @@ public class App extends JFrame{
         pack();
     }
 
-    
-    // Trả về instance của App (để gọi từ nơi khác)
+   
     public static App getInstance() {
         return instance;
     }
@@ -49,7 +49,7 @@ public class App extends JFrame{
         FlatRobotoFont.install();
         FlatLaf.registerCustomDefaultsSource("Themes");
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN,13));
-        FlatMacDarkLaf.setup();
+        FlatMacLightLaf.setup();
         EventQueue.invokeLater(() -> new App().setVisible(true));
     }
 }

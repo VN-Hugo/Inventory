@@ -8,17 +8,19 @@ public class PhieuDTO {
     private int manguoitao;
     private Timestamp thoigiantao;
     private int tongsanpham;
+    private int trangthai; // 0 = chưa xác nhận, 1 = đã xác nhận
 
     public PhieuDTO() {
     }
 
-    public PhieuDTO(int maphieu, int manguoitao, Timestamp thoigiantao, int tongsanpham) {
+    public PhieuDTO(int maphieu, int manguoitao, Timestamp thoigiantao, int tongsanpham, int trangthai) {
         this.maphieu = maphieu;
         this.manguoitao = manguoitao;
         this.thoigiantao = thoigiantao;
         this.tongsanpham = tongsanpham;
+        this.trangthai = trangthai;
     }
-    
+
     public int getMaphieu() {
         return maphieu;
     }
@@ -51,45 +53,45 @@ public class PhieuDTO {
         this.tongsanpham = tongsanpham;
     }
 
+    public int getTrangthai() {
+        return trangthai;
+    }
 
-        @Override
+    public void setTrangthai(int trangthai) {
+        this.trangthai = trangthai;
+    }
+
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 59 * hash + this.maphieu;
         hash = 59 * hash + this.manguoitao;
         hash = 59 * hash + Objects.hashCode(this.thoigiantao);
-        hash = 59 * hash + (int) (this.tongsanpham ^ (this.tongsanpham >>> 32));
+        hash = 59 * hash + this.tongsanpham;
+        hash = 59 * hash + this.trangthai;
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         final PhieuDTO other = (PhieuDTO) obj;
-        if (this.maphieu != other.maphieu) {
-            return false;
-        }
-        if (this.manguoitao != other.manguoitao) {
-            return false;
-        }
-        if (this.tongsanpham != other.tongsanpham) {
-            return false;
-        }
-        return Objects.equals(this.thoigiantao, other.thoigiantao);
+        return this.maphieu == other.maphieu &&
+               this.manguoitao == other.manguoitao &&
+               this.tongsanpham == other.tongsanpham &&
+               this.trangthai == other.trangthai &&
+               Objects.equals(this.thoigiantao, other.thoigiantao);
     }
 
     @Override
     public String toString() {
-        return "PhieuDTO{" + "maphieu=" + maphieu + ", manguoitao=" + manguoitao + ", thoigiantao=" + thoigiantao + ", tongsanpham=" + tongsanpham  + '}';
+        return "PhieuDTO{" +
+               "maphieu=" + maphieu +
+               ", manguoitao=" + manguoitao +
+               ", thoigiantao=" + thoigiantao +
+               ", tongsanpham=" + tongsanpham +
+               ", trangthai=" + (trangthai == 1 ? "Đã xác nhận" : "Chưa xác nhận") +
+               '}';
     }
-
-    
 }

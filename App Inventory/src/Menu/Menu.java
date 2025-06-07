@@ -15,27 +15,30 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-
+import DTO.TaiKhoanDTO;
 
 import Menu.Mode.LightDarkMode;
 import Menu.Mode.ToolBarAccentColor;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 public class Menu extends JPanel {
 
     private final String menuItems[][] = {
-        {"~Tiêu đề ~"},
         {"Trang chủ"},
-        {"~Quản lý~"},
-        {"Quản lý", "Quản lý sản phẩm", "Quản lý xuất"},
-        {"Mục 3"},
-        {"Mục 4"},
-        {"~Tiêu đề ~"},
-        {"Mục 5", "Cropper", "Owl Carousel", "Sweet Alert"},
-        {"Mục 6", "Basic Elements", "Advanced Elements", "Editors", "Wizard"},
-        {"~Tiêu đề~"},
-        {"Mục 7", "Apex", "Flot", "Peity", "Sparkline"},
-        {"Mục 8", "Feather Icons", "Flag Icons", "Mdi Icons"},
-        {"Mục 9", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"},
-        {"Logout"}
+        {"~Chức năng quản lý~"},
+        {"Sản phẩm"},
+        {"Nhà cung cấp"},
+        {"Khu vực kho"},
+        {"Khách Hàng"},
+        {"Nhân viên"},
+        {"Tài khoản"},
+        {"Phiếu xuất"},
+        {"Phiếu nhập"},
+        {"Thống kê"},
+        {"~Chức năng nhập hàng~"},
+        {"Nhập hàng"},
+        {"~Chức năng xuất hàng~"},
+        {"Xuất hàng"},
+        {"Đăng xuất"}
     };
 
     public boolean isMenuFull() {
@@ -62,7 +65,7 @@ public class Menu extends JPanel {
 
     private final List<MenuEvent> events = new ArrayList<>();
     private boolean menuFull = true;
-    private final String headerName = "Metro";
+    private final String headerName = "HopeHub";
 
     protected final boolean hideMenuTitleOnMinimum = true;
     protected final int menuTitleLeftInset = 5;
@@ -70,8 +73,9 @@ public class Menu extends JPanel {
     protected final int menuMaxWidth = 250;
     protected final int menuMinWidth = 60;
     protected final int headerFullHgap = 5;
-
-    public Menu() {
+    private String role;
+    public Menu(String role) {
+        this.role =role;
         init();
     }
 
@@ -82,7 +86,7 @@ public class Menu extends JPanel {
                 + "background:$Menu.background;"
                 + "arc:10");
         header = new JLabel(headerName);
-        header.setIcon(new ImageIcon(getClass().getResource("/Img/png/train.png")));
+        header.setIcon(new FlatSVGIcon("./Img/svg/logo.svg"));
         header.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$Menu.header.font;"
                 + "foreground:$Menu.foreground");
@@ -115,18 +119,45 @@ public class Menu extends JPanel {
         add(toolBarAccentColor);
     }
 
-    private void createMenu() {
-        int index = 0;
-        for (int i = 0; i < menuItems.length; i++) {
-            String menuName = menuItems[i][0];
-            if (menuName.startsWith("~") && menuName.endsWith("~")) {
-                panelMenu.add(createTitle(menuName));
+//     private void createMenu() {
+//        int index = 0;
+//        for (int i = 0; i < menuItems.length; i++) {
+//            String menuName = menuItems[i][0];
+//            if (menuName.startsWith("~") && menuName.endsWith("~")) {
+//                panelMenu.add(createTitle(menuName));
+//            } else {
+//                MenuItem menuItem = new MenuItem(this, menuItems[i], index++, events);
+//                panelMenu.add(menuItem);
+//            }
+//        }
+//    }
+private void createMenu() {
+    int index = 0;
+    panelMenu.add(new MenuItem(this, menuItems[0], index++, events));  // Trang chủ, index=0
+
+    if (role.equalsIgnoreCase("Quản lý")) {
+        for (int i = 1; i < 11; i++) {
+            String label = menuItems[i][0];
+            if (label.startsWith("~") && label.endsWith("~")) {
+                panelMenu.add(createTitle(label));  // Tiêu đề không tăng index
             } else {
-                MenuItem menuItem = new MenuItem(this, menuItems[i], index++, events);
-                panelMenu.add(menuItem);
+                panelMenu.add(new MenuItem(this, menuItems[i], index++, events));  // Tăng index cho menu item
             }
         }
+    } else if (role.equalsIgnoreCase("Nhân viên nhập kho")) {
+        panelMenu.add(createTitle(menuItems[11][0]));
+        panelMenu.add(new MenuItem(this, menuItems[2], 1, events));
+        panelMenu.add(new MenuItem(this, menuItems[12], 10, events));
+    } else if (role.equalsIgnoreCase("Nhân viên xuất kho")) {
+        panelMenu.add(createTitle(menuItems[13][0]));
+        panelMenu.add(new MenuItem(this, menuItems[2], 1, events));
+        panelMenu.add(new MenuItem(this, menuItems[14], 11, events));
     }
+
+    panelMenu.add(new MenuItem(this, menuItems[15],12, events));  // Đăng xuất
+}
+
+ 
 
     private JLabel createTitle(String title) {
         String menuName = title.substring(1, title.length() - 1);

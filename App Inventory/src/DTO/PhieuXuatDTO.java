@@ -1,19 +1,20 @@
-
 package DTO;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
-
-public class PhieuXuatDTO extends PhieuDTO{
+public class PhieuXuatDTO extends PhieuDTO {
     private int makh;
+
+    public PhieuXuatDTO() {
+        super();
+    }
 
     public PhieuXuatDTO(int makh) {
         this.makh = makh;
     }
 
-    public PhieuXuatDTO(int makh, int maphieu, int manguoitao, Timestamp thoigiantao, int tongsanpham) {
-        super(maphieu, manguoitao, thoigiantao, tongsanpham);
+    public PhieuXuatDTO(int makh, int maphieu, int manguoitao, Timestamp thoigiantao, int tongsanpham, int trangthai) {
+        super(maphieu, manguoitao, thoigiantao, tongsanpham, trangthai);
         this.makh = makh;
     }
 
@@ -27,30 +28,22 @@ public class PhieuXuatDTO extends PhieuDTO{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + this.makh;
-        return hash;
+        return 23 * super.hashCode() + this.makh;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        if (!super.equals(obj)) return false;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         final PhieuXuatDTO other = (PhieuXuatDTO) obj;
         return this.makh == other.makh;
     }
 
     @Override
     public String toString() {
-        return "PhieuXuatDTO{" + "makh=" + makh + '}';
+        return "PhieuXuatDTO{" +
+               "makh=" + makh +
+               "} " + super.toString();
     }
-
-    
 }

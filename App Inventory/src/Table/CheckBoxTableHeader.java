@@ -1,92 +1,49 @@
 package Table;
 
-import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.util.UIScale;
 import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
-import javax.swing.JCheckBox;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.event.TableModelEvent;
-import javax.swing.table.TableCellRenderer;
 
+import javax.swing.*;
+import javax.swing.table.*;
 
-public class CheckBoxTableHeader extends JCheckBox implements TableCellRenderer {
-
+public class CheckBoxTableHeader extends DefaultTableCellRenderer {
     private final JTable table;
-    private final int column;
+    private final int checkboxColumnIndex;
+    private final JCheckBox selectAll;
 
-    public CheckBoxTableHeader(JTable table, int column) {
+    public CheckBoxTableHeader(JTable table, int checkboxColumnIndex) {
         this.table = table;
-        this.column = column;
-        init();
-    }
+        this.checkboxColumnIndex = checkboxColumnIndex;
+        this.selectAll = new JCheckBox();
+        selectAll.setHorizontalAlignment(SwingConstants.CENTER);
 
-    private void init() {
-        putClientProperty(FlatClientProperties.STYLE, ""
-                + "background:$Table.background");
-        setHorizontalAlignment(SwingConstants.CENTER);
-
-        table.getTableHeader().addMouseListener(new MouseAdapter() {
+        // Đăng ký sự kiện click trên header
+        JTableHeader header = table.getTableHeader();
+        header.addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent me) {
-                if (SwingUtilities.isLeftMouseButton(me)) {
-                    int col = table.columnAtPoint(me.getPoint());
-                    if (col == column) {
-                        putClientProperty(FlatClientProperties.SELECTED_STATE, null);
-                        setSelected(!isSelected());
-                        selectedTableRow(isSelected());
-                    }
+            public void mouseClicked(MouseEvent e) {
+                int col = table.columnAtPoint(e.getPoint());
+                if (col == checkboxColumnIndex) {
+                    boolean checked = !selectAll.isSelected();
+                    selectAll.setSelected(checked);
+                    toggleAllCheckboxes(checked);
+                    header.repaint();
                 }
             }
         });
-
-        table.getModel().addTableModelListener((tme) -> {
-            if (tme.getColumn() == column || tme.getType() == TableModelEvent.DELETE) {
-                checkRow();
-            }
-        });
     }
 
-    private void checkRow() {
-        boolean initValue = table.getRowCount() == 0 ? false : (boolean) table.getValueAt(0, column);
-        for (int i = 1; i < table.getRowCount(); i++) {
-            boolean v = (boolean) table.getValueAt(i, column);
-            if (initValue != v) {
-                putClientProperty(FlatClientProperties.SELECTED_STATE, FlatClientProperties.SELECTED_STATE_INDETERMINATE);
-                table.getTableHeader().repaint();
-                return;
-            }
-        }
-        putClientProperty(FlatClientProperties.SELECTED_STATE, null);
-        setSelected(initValue);
-        table.getTableHeader().repaint();
-    }
-
-    private void selectedTableRow(boolean selected) {
-        for (int i = 0; i < table.getRowCount(); i++) {
-            table.setValueAt(selected, i, column);
+    private void toggleAllCheckboxes(boolean value) {
+        TableModel model = table.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            model.setValueAt(value, i, checkboxColumnIndex);
         }
     }
 
     @Override
-    public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
-        return this;
-    }
-
-    @Override
-    protected void paintComponent(Graphics grphcs) {
-        Graphics2D g2 = (Graphics2D) grphcs.create();
-        g2.setColor(UIManager.getColor("TableHeader.bottomSeparatorColor"));
-        float size = UIScale.scale(1f);
-        g2.fill(new Rectangle2D.Float(0, getHeight() - size, getWidth(), size));
-        g2.dispose();
-        super.paintComponent(grphcs);
+    public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column) {
+        return selectAll;
     }
 }
