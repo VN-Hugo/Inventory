@@ -1,0 +1,151 @@
+CREATE TABLE TaiKhoan (
+    MaNV NUMBER(11) PRIMARY KEY,
+    TenDangNhap VARCHAR2(20) UNIQUE ,
+    MatKhau VARCHAR2(100),
+    role VARCHAR2(100),
+    trangthai NUMBER(1) DEFAULT 1
+);
+CREATE SEQUENCE seq_nhanvien
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+Select * From TonKho;
+CREATE TABLE SanPham (
+  masp NUMBER(11) PRIMARY KEY,
+  tensp VARCHAR2(255)NOT NULL,
+  xuatxu VARCHAR2(255)NOT NULL,
+  thuonghieu VARCHAR2(255) NOT NULL
+);
+
+CREATE SEQUENCE seq_sanpham_id
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+COMMIT;
+CREATE TABLE TonKho (
+    MaSanPham NUMBER(11),
+    MaKhuVuc  NUMBER(11),
+    SoLuongTon NUMBER(11) DEFAULT 0,
+    NgayCapNhat DATE DEFAULT SYSDATE,
+    PRIMARY KEY (MaSanPham, MaKhuVuc),
+    FOREIGN KEY (MaSanPham) REFERENCES SanPham(masp),
+    FOREIGN KEY (MaKhuVuc) REFERENCES KhuVucKho(makhuvuc)
+);
+
+ALTER TABLE phieuxuat ADD (trangthai NUMBER(11) DEFAULT 0);
+COMMIT;
+
+CREATE TABLE KhuVucKho (
+  makhuvuc NUMBER(11) PRIMARY KEY,
+  tenkhuvuc VARCHAR2(255) NOT NULL,
+  ghichu VARCHAR2(255) NOT NULL,
+  trangthai NUMBER(11) NOT NULL
+);
+
+
+CREATE TABLE KhachHang (
+  makh NUMBER(11) PRIMARY KEY,
+  hoten VARCHAR2(255) NOT NULL,
+  sdt VARCHAR2(255) NOT NULL,
+  diachi VARCHAR2(255) NOT NULL,
+  trangthai NUMBER(11) NOT NULL,
+  ngaythamgia DATE DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE SEQUENCE seq_khachhang_id
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+
+CREATE TABLE NhaCungCap (
+  manhacungcap NUMBER(11) PRIMARY KEY,
+  tennhacungcap VARCHAR2(255) NOT NULL,
+  diachi VARCHAR2(255) NOT NULL,
+  email VARCHAR2(255) NOT NULL,
+  sdt VARCHAR2(255) NOT NULL,
+  trangthai NUMBER(11) DEFAULT 1 NOT NULL
+);
+CREATE SEQUENCE seq_nhacungcap_id
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+
+
+
+CREATE TABLE NhanVien (
+  manv NUMBER(11) PRIMARY KEY,
+  hoten VARCHAR2(255) NOT NULL,
+  gioitinh NUMBER(11) NOT NULL,
+  ngaysinh DATE NOT NULL,
+  sdt VARCHAR2(50) NOT NULL,
+  email VARCHAR2(255) NOT NULL,
+  trangthai NUMBER(11) NOT NULL
+);
+
+CREATE TABLE PhieuNhap (
+    MaPhieuNhap NUMBER(11) PRIMARY KEY,
+    NgayNhap DATE DEFAULT SYSDATE,
+    MaNV NUMBER(11),
+    MaNhaCungCap NUMBER(11),
+    TongSanPham NUMBER(11),
+    FOREIGN KEY (MaNV) REFERENCES NhanVien(manv),
+    FOREIGN KEY (MaNhaCungCap) REFERENCES NhaCungCap(manhacungcap)
+);
+
+INSERT INTO PhieuNhap (MaPhieuNhap, NgayNhap, MaNV, MaNhaCungCap, TongSanPham)
+VALUES (1, TO_DATE('2025-05-31', 'YYYY-MM-DD'), 1, 12, 15);
+INSERT INTO PhieuNhap (MaPhieuNhap, NgayNhap, MaNV, MaNhaCungCap, TongSanPham)
+VALUES (2, TO_DATE('2025-06-01', 'YYYY-MM-DD'), 2,12, 30);
+CREATE SEQUENCE seq_phieunhap START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE TABLE PhieuXuat (
+    MaPhieuXuat NUMBER(11) PRIMARY KEY,
+    NgayXuat DATE DEFAULT SYSDATE,
+    MaNV NUMBER(11),
+    MaKhachHang NUMBER(11),
+    TongSanPham NUMBER(11),
+    FOREIGN KEY (MaNV) REFERENCES NhanVien(manv),
+    FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(makh)
+);
+CREATE SEQUENCE seq_phieuxuat START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE TABLE ChiTietPhieuNhap (
+    MaPhieuNhap NUMBER(11),
+    MaSanPham NUMBER(11),
+    SoLuong NUMBER(11),
+    MaKho NUMBER(11),
+    PRIMARY KEY (MaPhieuNhap, MaSanPham,MaKho),
+    FOREIGN KEY (MaPhieuNhap) REFERENCES PhieuNhap(MaPhieuNhap),
+    FOREIGN KEY (MaSanPham) REFERENCES SanPham(masp),
+    FOREIGN KEY (MaKho) REFERENCES KhuVucKho(makhuvuc)
+);
+Select * From TonKho;
+CREATE TABLE ChiTietPhieuXuat (
+    MaPhieuXuat NUMBER(11),
+    MaSanPham NUMBER(11),
+    SoLuong NUMBER(11),
+    MaKho NUMBER(11),
+    PRIMARY KEY (MaPhieuXuat, MaSanPham,MaKho),
+    FOREIGN KEY (MaPhieuXuat) REFERENCES PhieuXuat(MaPhieuXuat),
+    FOREIGN KEY (MaSanPham) REFERENCES SanPham(masp),
+    FOREIGN KEY (MaKho) REFERENCES KhuVucKho(makhuvuc)
+);
+Select * From TonKho;
+CREATE TABLE LICHSUKIEMKE (
+    ID NUMBER PRIMARY KEY,
+    MASP VARCHAR2(20),
+    MAKHUVUC VARCHAR2(20),
+    SOLUONG_HT NUMBER,
+    SOLUONG_TT NUMBER,
+    CHENHLECH NUMBER,
+    NGAY_KIEMKE DATE,
+    NGUOIKIEMKE VARCHAR2(50)
+);
+
+
+
+
+
